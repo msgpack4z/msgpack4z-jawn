@@ -10,7 +10,7 @@ object build extends Build {
   ).settings(
     name := msgpack4zJawnName,
     libraryDependencies ++= (
-      ("org.spire-math" %% "jawn-ast" % "0.7.2") ::
+      ("org.spire-math" %% "jawn-ast" % "0.7.4") ::
       ("com.github.xuwei-k" %% "msgpack4z-core" % "0.1.2") ::
       ("org.scalacheck" %% "scalacheck" % "1.12.2" % "test") ::
       ("com.github.xuwei-k" % "msgpack4z-java07" % "0.1.3" % "test").exclude("org.msgpack", "msgpack-core") ::
