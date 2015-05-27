@@ -57,8 +57,10 @@ object JawnMsgpack {
         packer.packLong(value)
       case DoubleNum(value) =>
         packer.packDouble(value)
+      case value: DeferLong =>
+        packer.packLong(value.asLong)
       case value: DeferNum =>
-        packer.packDouble(value.toDouble)
+        packer.packDouble(value.asDouble)
     }
   }
 
