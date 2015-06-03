@@ -15,7 +15,8 @@ object build extends Build {
          ExclusionRule("org.openjdk.jmh", "jmh-generator-bytecode"),
          ExclusionRule("org.openjdk.jmh", "jmh-generator-reflection")
       ) ::
-      ("com.github.xuwei-k" %% "msgpack4z-core" % "0.1.2") ::
+      ("com.github.xuwei-k" %% "msgpack4z-core" % "0.1.2").exclude("org.scalaz", "scalaz-core_2.11") ::
+      ("org.scalaz" %% "scalaz-core" % "7.1.2") ::
       ("org.scalacheck" %% "scalacheck" % "1.12.2" % "test") ::
       ("com.github.xuwei-k" % "msgpack4z-java07" % "0.1.3" % "test").exclude("org.msgpack", "msgpack-core") ::
       ("org.msgpack" % "msgpack-core" % "0.7.0-p9" % "test") ::
