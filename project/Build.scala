@@ -11,7 +11,7 @@ object build extends Build {
     name := msgpack4zJawnName,
     libraryDependencies ++= (
       ("org.spire-math" %% "jawn-ast" % "0.8.3") ::
-      ("com.github.xuwei-k" %% "msgpack4z-core" % "0.1.3") ::
+      ("com.github.xuwei-k" %% "msgpack4z-core" % "0.1.4") ::
       ("org.scalacheck" %% "scalacheck" % "1.12.2" % "test") ::
       ("com.github.xuwei-k" % "msgpack4z-java07" % "0.1.4" % "test") ::
       ("com.github.xuwei-k" % "msgpack4z-java06" % "0.1.1" % "test") ::
