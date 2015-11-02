@@ -12,7 +12,7 @@ object build extends Build {
     libraryDependencies ++= (
       ("org.spire-math" %% "jawn-ast" % "0.8.3") ::
       ("com.github.xuwei-k" %% "msgpack4z-core" % "0.1.4") ::
-      ("org.scalacheck" %% "scalacheck" % "1.12.2" % "test") ::
+      ("org.scalacheck" %% "scalacheck" % "1.12.5" % "test") ::
       ("com.github.xuwei-k" % "msgpack4z-java07" % "0.1.5" % "test") ::
       ("com.github.xuwei-k" % "msgpack4z-java06" % "0.1.1" % "test") ::
       ("com.github.xuwei-k" %% "msgpack4z-native" % "0.1.1" % "test") ::
