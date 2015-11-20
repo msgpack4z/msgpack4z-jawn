@@ -21,6 +21,7 @@ object Common {
     ReleasePlugin.extraReleaseCommands,
     sonatypeSettings
   ).flatten ++ Seq(
+    fullResolvers ~= {_.filterNot(_.name == "jcenter")},
     testOptions in Test += Tests.Argument(
       TestFrameworks.ScalaCheck, "-minSuccessfulTests", "300"
     ),
