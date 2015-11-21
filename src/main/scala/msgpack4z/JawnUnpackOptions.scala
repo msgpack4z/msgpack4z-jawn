@@ -1,11 +1,11 @@
 package msgpack4z
 
-import jawn.ast.{JNull, LongNum, JArray, JValue}
+import jawn.ast._
 import msgpack4z.JawnUnpackOptions.NonStringKeyHandler
 import scalaz.{\/-, -\/}
 
 final case class JawnUnpackOptions(
-  extended: Unpacker[JValue],
+  extension: Unpacker[JValue],
   binary: Unpacker[JValue],
   positiveInf: UnpackResult[JValue],
   negativeInf: UnpackResult[JValue],
@@ -14,18 +14,32 @@ final case class JawnUnpackOptions(
 )
 
 object JawnUnpackOptions {
-  val binaryToNumberArray: Binary => JValue = { bytes =>
-    val array = new Array[JValue](bytes.value.length)
+  private[this] def bytes2NumberArray(bytes: Array[Byte]): JValue = {
+    val array = new Array[JValue](bytes.length)
     var i = 0
     while(i < array.length){
-      array(i) = LongNum(bytes.value(i))
+      array(i) = LongNum(bytes(i))
       i += 1
     }
     JArray(array)
   }
 
+  val binaryToNumberArray: Binary => JValue = { bytes =>
+    bytes2NumberArray(bytes.value)
+  }
+
   val binaryToNumberArrayUnpacker: Unpacker[JValue] = { unpacker =>
     CodecInstances.binary.binaryCodec.unpack(unpacker).map(binaryToNumberArray)
+  }
+
+  val extUnpacker: Unpacker[JValue] = { unpacker =>
+    val header = unpacker.unpackExtTypeHeader
+    val data = unpacker.readPayload(header.getLength)
+    val result = JObject(collection.mutable.Map(
+      ("type", LongNum(header.getType)),
+      ("data", bytes2NumberArray(data))
+    ))
+    \/-(result)
   }
 
   type NonStringKeyHandler = (MsgType, MsgUnpacker) => Option[String]
@@ -33,7 +47,7 @@ object JawnUnpackOptions {
   private[this] val jNullRight = \/-(JNull)
 
   val default: JawnUnpackOptions = JawnUnpackOptions(
-    _ => -\/(Err(new Exception("does not support extended type"))),
+    extUnpacker,
     binaryToNumberArrayUnpacker,
     jNullRight,
     jNullRight,
