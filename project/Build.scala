@@ -15,7 +15,7 @@ object build extends Build {
       ("org.scalacheck" %% "scalacheck" % "1.12.5" % "test") ::
       ("com.github.xuwei-k" % "msgpack4z-java07" % "0.2.0" % "test") ::
       ("com.github.xuwei-k" % "msgpack4z-java06" % "0.2.0" % "test") ::
-      ("com.github.xuwei-k" %% "msgpack4z-native" % "0.2.0" % "test") ::
+      ("com.github.xuwei-k" %% "msgpack4z-native" % "0.2.1" % "test") ::
       Nil
     )
   ).settings(
