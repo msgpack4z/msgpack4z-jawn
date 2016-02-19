@@ -13,7 +13,7 @@ object build extends Build {
       ("org.spire-math" %% "jawn-ast" % "0.8.4") ::
       ("com.github.xuwei-k" %% "msgpack4z-core" % "0.3.1") ::
       ("org.scalacheck" %% "scalacheck" % "1.12.5" % "test") ::
-      ("com.github.xuwei-k" % "msgpack4z-java07" % "0.2.0" % "test") ::
+      ("com.github.xuwei-k" % "msgpack4z-java" % "0.3.1" % "test") ::
       ("com.github.xuwei-k" % "msgpack4z-java06" % "0.2.0" % "test") ::
       ("com.github.xuwei-k" %% "msgpack4z-native" % "0.2.1" % "test") ::
       Nil

@@ -102,9 +102,9 @@ object Java06Spec extends SpecBase("java06"){
   override protected[this] def unpacker(bytes: Array[Byte]) = Msgpack06.defaultUnpacker(bytes)
 }
 
-object Java07Spec extends SpecBase("java07"){
-  override protected[this] def packer() = new Msgpack07Packer()
-  override protected[this] def unpacker(bytes: Array[Byte]) = Msgpack07Unpacker.defaultUnpacker(bytes)
+object JavaSpec extends SpecBase("java"){
+  override protected[this] def packer() = new MsgpackJavaPacker()
+  override protected[this] def unpacker(bytes: Array[Byte]) = MsgpackJavaUnpacker.defaultUnpacker(bytes)
 }
 
 object NativeSpec extends SpecBase("native"){
