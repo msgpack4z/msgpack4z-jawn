@@ -2,7 +2,7 @@ package msgpack4z
 
 import jawn.ast._
 import msgpack4z.JawnUnpackOptions.NonStringKeyHandler
-import scalaz.{\/-, -\/}
+import scalaz.\/-
 
 final case class JawnUnpackOptions(
   extension: Unpacker[JValue],
