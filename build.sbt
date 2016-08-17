@@ -5,7 +5,7 @@ Common.settings
 name := msgpack4zJawnName
 
 libraryDependencies ++= (
-  ("org.spire-math" %% "jawn-ast" % "0.8.4") ::
+  ("org.spire-math" %% "jawn-ast" % "0.9.0") ::
   ("com.github.xuwei-k" %% "msgpack4z-core" % "0.3.3") ::
   ("org.scalacheck" %% "scalacheck" % "1.13.2" % "test") ::
   ("com.github.xuwei-k" % "msgpack4z-java" % "0.3.4" % "test") ::
