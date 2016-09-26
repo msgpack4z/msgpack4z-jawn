@@ -17,6 +17,8 @@ object Common {
     Nil
   )
 
+  private[this] val Scala211 = "2.11.8"
+
   val settings = Seq(
     ReleasePlugin.extraReleaseCommands,
     sonatypeSettings
@@ -29,7 +31,7 @@ object Common {
     commands += Command.command("updateReadme")(UpdateReadme.updateReadmeTask),
     releaseProcess := Seq[ReleaseStep](
       ReleaseStep{ state =>
-        assert(Sxr.disableSxr == false)
+        assert(Sxr.enableSxr.value)
         state
       },
       checkSnapshotDependencies,
@@ -67,8 +69,8 @@ object Common {
       "-Yno-adapted-args" ::
       Nil
     ) ::: unusedWarnings,
-    scalaVersion := "2.11.8",
-    crossScalaVersions := scalaVersion.value :: Nil,
+    scalaVersion := Scala211,
+    crossScalaVersions := Scala211 :: "2.12.0-RC1" :: Nil,
     scalacOptions in (Compile, doc) ++= {
       val tag = if(isSnapshot.value) gitHash else { "v" + version.value }
       Seq(

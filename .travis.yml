@@ -2,6 +2,9 @@ language: scala
 
 sudo: false
 
+scala:
+  - 2.11.8
+
 jdk:
   - oraclejdk7
   - oraclejdk8
@@ -9,10 +12,15 @@ jdk:
 script:
   - git config core.whitespace tab-in-indent,trailing-space,space-before-tab,cr-at-eol
   - git show --oneline --check
-  - if [[ "${TRAVIS_PULL_REQUEST}" == "false" && ${JAVA_HOME} == $(jdk_switcher home oraclejdk7) && "${TRAVIS_BRANCH}" == "master" ]]; then export PUBLISH_SONATYPE=true; fi
-  - sbt $(if [[ "${PUBLISH_SONATYPE}" == "true" ]]; then echo "" ; else echo "-Ddisable_sxr"; fi) test $(if [[ "${PUBLISH_SONATYPE}" == "true" ]]; then echo "publish" ; fi)
+  - if [[ "${TRAVIS_PULL_REQUEST}" == "false" && ${JAVA_HOME} == $(jdk_switcher home oraclejdk8) && "${TRAVIS_BRANCH}" == "master" ]]; then export PUBLISH_SONATYPE=true; fi
+  - sbt ++${TRAVIS_SCALA_VERSION} test $(if [[ "${PUBLISH_SONATYPE}" == "true" ]]; then echo "publish" ; fi)
 
 env:
   global:
   - secure: Lzg93bVfD8Z005DxzfEaGTIaCKd4pDFDothHhkUdyvyHIt0mEeYR1mUJQsurtKfLa3J/EAweoN/5tOoPPbLP/uQ2Om36YfYsOk3Z9J97Vn5qblFSnmaH/V+dEojrtdNTaTyk2OkvbrS/JUfi9Z+AMmS6eSt1YmNshbjr/cbXqDI=
   - secure: Bw4FPk4/WYAy5hL+/CMD00bjzJ13uyebsFdlvCK99sIM8Ylqs7MazSAxHiKgqbBaZ+hD3X0rXOJ8QFAK6+aLUd6ux2nJjAQ872GOTtTIc0DRbQEyWhyLvVnfHnGgMn27tibl9gboUNx1KLLt4ROE81tCS3IHPY6za1q83CSObZw=
+
+matrix:
+  include:
+    - scala: 2.12.0-RC1
+      jdk: oraclejdk8
