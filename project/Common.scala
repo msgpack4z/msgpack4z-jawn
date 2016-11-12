@@ -30,10 +30,6 @@ object Common {
     ),
     commands += Command.command("updateReadme")(UpdateReadme.updateReadmeTask),
     releaseProcess := Seq[ReleaseStep](
-      ReleaseStep{ state =>
-        assert(Sxr.enableSxr.value)
-        state
-      },
       checkSnapshotDependencies,
       inquireVersions,
       runClean,
@@ -42,7 +38,12 @@ object Common {
       commitReleaseVersion,
       UpdateReadme.updateReadmeProcess,
       tagRelease,
-      ReleaseStep(state => Project.extract(state).runTask(PgpKeys.publishSigned, state)._1),
+      ReleaseStep(
+        action = { state =>
+          Project.extract(state).runTask(PgpKeys.publishSigned, state)._1
+        },
+        enableCrossBuild = true
+      ),
       setNextVersion,
       commitNextVersion,
       UpdateReadme.updateReadmeProcess,
