@@ -63,6 +63,7 @@ object Common {
     scalacOptions ++= (
       "-deprecation" ::
       "-unchecked" ::
+      "-Xfuture" ::
       "-Xlint" ::
       "-language:existentials" ::
       "-language:higherKinds" ::
