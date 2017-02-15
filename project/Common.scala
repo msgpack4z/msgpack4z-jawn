@@ -19,10 +19,8 @@ object Common {
 
   private[this] val Scala211 = "2.11.8"
 
-  val settings = Seq(
+  val settings = Seq[SettingsDefinition](
     ReleasePlugin.extraReleaseCommands,
-    sonatypeSettings
-  ).flatten ++ Seq(
     fullResolvers ~= {_.filterNot(_.name == "jcenter")},
     resolvers += Opts.resolver.sonatypeReleases,
     testOptions in Test += Tests.Argument(
@@ -47,10 +45,7 @@ object Common {
       setNextVersion,
       commitNextVersion,
       UpdateReadme.updateReadmeProcess,
-      ReleaseStep{ state =>
-        val extracted = Project extract state
-        extracted.runAggregated(SonatypeKeys.sonatypeReleaseAll in Global in extracted.get(thisProjectRef), state)
-      },
+      releaseStepCommand("sonatypeReleaseAll"),
       pushChanges
     ),
     credentials ++= PartialFunction.condOpt(sys.env.get("SONATYPE_USER") -> sys.env.get("SONATYPE_PASS")){
@@ -104,9 +99,10 @@ object Common {
       }
       val stripTestScope = stripIf { n => n.label == "dependency" && (n \ "scope").text == "test" }
       new RuleTransformer(stripTestScope).transform(node)(0)
-    }
-  ) ++ Seq(Compile, Test).flatMap(c =>
-    scalacOptions in (c, console) --= unusedWarnings
-  )
+    },
+    Seq(Compile, Test).flatMap(c =>
+      scalacOptions in (c, console) --= unusedWarnings
+    )
+  ).flatMap(_.settings)
 
 }
