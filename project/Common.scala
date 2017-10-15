@@ -27,6 +27,12 @@ object Common {
       TestFrameworks.ScalaCheck, "-minSuccessfulTests", "300"
     ),
     commands += Command.command("updateReadme")(UpdateReadme.updateReadmeTask),
+    publishTo := Some(
+      if (isSnapshot.value)
+        Opts.resolver.sonatypeSnapshots
+      else
+        Opts.resolver.sonatypeStaging
+    ),
     releaseProcess := Seq[ReleaseStep](
       checkSnapshotDependencies,
       inquireVersions,
