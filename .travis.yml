@@ -3,7 +3,7 @@ language: scala
 sudo: false
 
 scala:
-  - 2.11.11
+  - 2.11.12
 
 jdk:
   - openjdk7
@@ -22,5 +22,5 @@ env:
 
 matrix:
   include:
-    - scala: 2.12.3
+    - scala: 2.12.4
       jdk: oraclejdk8

@@ -17,7 +17,7 @@ object Common {
     Nil
   )
 
-  private[this] val Scala211 = "2.11.11"
+  private[this] val Scala211 = "2.11.12"
 
   val settings = Seq[SettingsDefinition](
     ReleasePlugin.extraReleaseCommands,
@@ -73,7 +73,7 @@ object Common {
       Nil
     ) ::: unusedWarnings,
     scalaVersion := Scala211,
-    crossScalaVersions := Scala211 :: "2.12.3" :: Nil,
+    crossScalaVersions := Scala211 :: "2.12.4" :: Nil,
     scalacOptions in (Compile, doc) ++= {
       val tag = if(isSnapshot.value) gitHash else { "v" + version.value }
       Seq(
