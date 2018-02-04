@@ -2,13 +2,12 @@ import sbt._, Keys._
 import sbtrelease._
 import sbtrelease.ReleasePlugin.autoImport._
 import ReleaseStateTransformations._
-import xerial.sbt.Sonatype._
 import com.typesafe.sbt.pgp.PgpKeys
 
 object Common {
 
   private def gitHash: String = scala.util.Try(
-    sys.process.Process("git rev-parse HEAD").lines_!.head
+    sys.process.Process("git rev-parse HEAD").lineStream_!.head
   ).getOrElse("master")
 
   private[this] val unusedWarnings = (

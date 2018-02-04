@@ -1,8 +1,6 @@
-import build._
-
 Common.settings
 
-name := msgpack4zJawnName
+name := build.msgpack4zJawnName
 
 libraryDependencies ++= (
   ("org.spire-math" %% "jawn-ast" % "0.11.0") ::

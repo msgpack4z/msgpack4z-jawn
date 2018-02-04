@@ -4,9 +4,9 @@ sudo: false
 
 scala:
   - 2.11.12
+  - 2.12.4
 
 jdk:
-  - openjdk7
   - oraclejdk8
 
 script:
@@ -19,8 +19,3 @@ env:
   global:
   - secure: "cFaq/jy/F139X8wM5Y4xiH9MukK61EGQTeviw4evsrDz3y53tYuPMeVXg0VaT942wkJc0B/6dLYLeutKI/gYHH/ruL8Qe9lYf4oViw3nz3e1rvVX3b+GCOVcVh3UWPBsz5pR+emrm4ISfNTEELnjVVtsJCDUmrLQyT3cssxXnXZW8F3Gs2h2d/4jrKwN/RroGvh/ykHweB4Zxx+5DMJsJbfyK3cv5l1/EyKCquvVAGJ3F25fQIPSbXR8IWEjcDKLFjiiilbNVac+YeRHQ90g3JFD8LwDkUbjNJNy5p9YNNAynaqdwf0BLauP7ty2FWEqOoQh+hwhBuYwTtXLMZGBVpq1bymQnmpDv9oQZlkdWE+Pr6yi8xn23BE5U7Pa32WcRNy1bxFa1d7LXzjzJkZxFrEMqcE49Mxcsz55cRFzVID7AXGuIVgJdoqMOtb4uuHlabv6NoI2TzC03MRNtmZd8bwHLnLS21HndZN9L89hsdNyW1lpjqa+h7rKFL3fIu8lHhOJo6G9R2v6qhGKT3T9Cq0qjkwxe4KTLKzSDYo8dtlwCQPapwaUX+qv066Z4npP4/viM5BO9GRchTgPCXXjnvtnAMtCKvS+TK/aUrIliUHQv0Nz1TdtWZu1/xORyU1dIYBAAlDCqBNsaIaNpftZBOQZtkXwFxIqHA/TKf35JOo="
   - secure: "szDRFjFZUt69/DIJaLjNY65Y4+bgnY4V6iELRch09trGq2/mkJ4/DMtQKjuKFvkzhqcmPxx7PIF9hbVGWW6o9DhbwtR3+ZkENFDSdVqMr3603tF4hd2nXv36HPf1aLkxeDsAOSDIS2+1SDwoUE3z9R02yJ9lBKOndm6OD4S3out5pNkiomTcmW4Y0s22UaAU8fGceWBFjFRZtI+351OVusnHzdX1NV27tWCSTC/JFIiNlZs5LW0x1Jchcryn4Mj9llIFDHQReBOAO4Ygi+ppc7IhkmPzPYeHAhg6gitPpG7Z/+9uZOVFeVcsVnogUbw7DnI3PeUSxYRlWwwUWvGxReouVwzofCb4jIiRw0NwMdByWrwPj5Kd3cyw65sntGwQIOpaDklIwKPyxCjMLduhHFjBYlxmU+Y4FYCm7Vik1gLv4s/0uYyBl7pRMvbEPZuAhkBXjHRduZdYEH8WJ5KhMg4ZGtQl2MTV4HcOb5Lu/DdLbeXF9XVyKhzMvXV1UddMCffy/J22pYr6ivjA46ixmFRYCjXHtZ4rX/r5XDKTezmcr6x7FxLSKpzhRlUP0Di61kG4NAHSHHaHnSznMoU6ThIzu5zBBtrrjgtyWGzKVel8nafDUMZNS1FQ14r6gGWhMU1kNFwN8BHs4q1JSbG/GOAA78kWXDCnff+W4LxmLgg="
-
-matrix:
-  include:
-    - scala: 2.12.4
-      jdk: oraclejdk8
