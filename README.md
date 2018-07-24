@@ -10,10 +10,10 @@
 ### latest stable version
 
 ```scala
-libraryDependencies += "com.github.xuwei-k" %% "msgpack4z-jawn" % "0.3.8"
+libraryDependencies += "com.github.xuwei-k" %% "msgpack4z-jawn" % "0.3.9"
 ```
 
-- [sxr](https://oss.sonatype.org/service/local/repositories/releases/archive/com/github/xuwei-k/msgpack4z-jawn_2.12/0.3.8/msgpack4z-jawn_2.12-0.3.8-sxr.jar/!/index.html)
+- [sxr](https://oss.sonatype.org/service/local/repositories/releases/archive/com/github/xuwei-k/msgpack4z-jawn_2.11/0.3.9/msgpack4z-jawn_2.11-0.3.9-sxr.jar/!/index.html)
 
 ### snapshot version
 
