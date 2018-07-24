@@ -116,7 +116,7 @@ object JawnMsgpack {
 
     def process(key: String): Unit = {
      if (msgpack2json0(unpacker, mapElem, unpackOptions)) {
-       obj += (key, mapElem.value)
+       obj += ((key, mapElem.value))
        i += 1
      } else {
        result.error = mapElem.error
