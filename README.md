@@ -13,7 +13,7 @@
 libraryDependencies += "com.github.xuwei-k" %% "msgpack4z-jawn" % "0.3.8"
 ```
 
-- [sxr](https://oss.sonatype.org/service/local/repositories/releases/archive/com/github/xuwei-k/msgpack4z-jawn_2.13.0-M3/0.3.8/msgpack4z-jawn_2.13.0-M3-0.3.8-sxr.jar/!/index.html)
+- [sxr](https://oss.sonatype.org/service/local/repositories/releases/archive/com/github/xuwei-k/msgpack4z-jawn_2.12/0.3.8/msgpack4z-jawn_2.12-0.3.8-sxr.jar/!/index.html)
 
 ### snapshot version
 
@@ -23,4 +23,4 @@ libraryDependencies += "com.github.xuwei-k" %% "msgpack4z-jawn" % "0.3.9-SNAPSHO
 resolvers += Opts.resolver.sonatypeSnapshots
 ```
 
-- [sxr](https://oss.sonatype.org/service/local/repositories/snapshots/archive/com/github/xuwei-k/msgpack4z-jawn_2.13.0-M3/0.3.9-SNAPSHOT/msgpack4z-jawn_2.13.0-M3-0.3.9-SNAPSHOT-sxr.jar/!/index.html)
+- [sxr](https://oss.sonatype.org/service/local/repositories/snapshots/archive/com/github/xuwei-k/msgpack4z-jawn_2.12/0.3.9-SNAPSHOT/msgpack4z-jawn_2.12-0.3.9-SNAPSHOT-sxr.jar/!/index.html)
