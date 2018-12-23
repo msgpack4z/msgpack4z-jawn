@@ -18,9 +18,9 @@ libraryDependencies += "com.github.xuwei-k" %% "msgpack4z-jawn" % "0.4.0"
 ### snapshot version
 
 ```scala
-libraryDependencies += "com.github.xuwei-k" %% "msgpack4z-jawn" % "0.3.10-SNAPSHOT"
+libraryDependencies += "com.github.xuwei-k" %% "msgpack4z-jawn" % "0.4.1-SNAPSHOT"
 
 resolvers += Opts.resolver.sonatypeSnapshots
 ```
 
-- [sxr](https://oss.sonatype.org/service/local/repositories/snapshots/archive/com/github/xuwei-k/msgpack4z-jawn_2.11/0.3.10-SNAPSHOT/msgpack4z-jawn_2.11-0.3.10-SNAPSHOT-sxr.jar/!/index.html)
+- [sxr](https://oss.sonatype.org/service/local/repositories/snapshots/archive/com/github/xuwei-k/msgpack4z-jawn_2.12/0.4.1-SNAPSHOT/msgpack4z-jawn_2.12-0.4.1-SNAPSHOT-sxr.jar/!/index.html)
