@@ -1,7 +1,7 @@
 package msgpack4z
 
 import scalaz.{-\/, \/, \/-}
-import jawn.ast._
+import org.typelevel.jawn.ast._
 
 object JawnMsgpack {
 

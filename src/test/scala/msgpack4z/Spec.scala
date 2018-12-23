@@ -1,6 +1,6 @@
 package msgpack4z
 
-import jawn.ast._
+import org.typelevel.jawn.ast._
 import org.scalacheck.{Arbitrary, Gen, Prop, Properties}
 import scalaz.{-\/, \/-}
 
