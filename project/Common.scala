@@ -6,23 +6,23 @@ import com.typesafe.sbt.pgp.PgpKeys
 
 object Common {
 
-  private def gitHash: String = scala.util.Try(
+  private def gitHash: String =
     sys.process.Process("git rev-parse HEAD").lineStream_!.head
-  ).getOrElse("master")
 
-  private[this] val unusedWarnings = (
-    "-Ywarn-unused" ::
-    Nil
+  private[this] val unusedWarnings = Seq(
+    "-Ywarn-unused",
   )
 
   private[this] val Scala211 = "2.11.12"
 
   val settings = Seq[SettingsDefinition](
     ReleasePlugin.extraReleaseCommands,
-    fullResolvers ~= {_.filterNot(_.name == "jcenter")},
+    fullResolvers ~= { _.filterNot(_.name == "jcenter") },
     resolvers += Opts.resolver.sonatypeReleases,
     testOptions in Test += Tests.Argument(
-      TestFrameworks.ScalaCheck, "-minSuccessfulTests", "300"
+      TestFrameworks.ScalaCheck,
+      "-minSuccessfulTests",
+      "300"
     ),
     commands += Command.command("updateReadme")(UpdateReadme.updateReadmeTask),
     publishTo := Some(
@@ -52,31 +52,39 @@ object Common {
       releaseStepCommand("sonatypeReleaseAll"),
       pushChanges
     ),
-    credentials ++= PartialFunction.condOpt(sys.env.get("SONATYPE_USER") -> sys.env.get("SONATYPE_PASS")){
-      case (Some(user), Some(pass)) =>
-        Credentials("Sonatype Nexus Repository Manager", "oss.sonatype.org", user, pass)
-    }.toList,
+    credentials ++= PartialFunction
+      .condOpt(sys.env.get("SONATYPE_USER") -> sys.env.get("SONATYPE_PASS")) {
+        case (Some(user), Some(pass)) =>
+          Credentials("Sonatype Nexus Repository Manager", "oss.sonatype.org", user, pass)
+      }
+      .toList,
     organization := "com.github.xuwei-k",
     homepage := Some(url("https://github.com/msgpack4z")),
     licenses := Seq("MIT License" -> url("http://www.opensource.org/licenses/mit-license.php")),
-    scalacOptions ++= (
-      "-target:jvm-1.8" ::
-      "-deprecation" ::
-      "-unchecked" ::
-      "-Xfuture" ::
-      "-Xlint" ::
-      "-language:existentials" ::
-      "-language:higherKinds" ::
-      "-language:implicitConversions" ::
-      Nil
-    ) ::: unusedWarnings,
+    scalacOptions ++= Seq(
+      "-target:jvm-1.8",
+      "-deprecation",
+      "-unchecked",
+      "-Xfuture",
+      "-Xlint",
+      "-language:existentials",
+      "-language:higherKinds",
+      "-language:implicitConversions",
+    ),
+    scalacOptions ++= unusedWarnings,
     scalaVersion := Scala211,
     crossScalaVersions := Scala211 :: "2.12.8" :: "2.13.0-M5" :: Nil,
     scalacOptions in (Compile, doc) ++= {
-      val tag = if(isSnapshot.value) gitHash else { "v" + version.value }
+      val tag =
+        if (isSnapshot.value) gitHash
+        else {
+          "v" + version.value
+        }
       Seq(
-        "-sourcepath", (baseDirectory in LocalRootProject).value.getAbsolutePath,
-        "-doc-source-url", s"https://github.com/msgpack4z/msgpack4z-jawn/tree/${tag}€{FILE_PATH}.scala"
+        "-sourcepath",
+        (baseDirectory in LocalRootProject).value.getAbsolutePath,
+        "-doc-source-url",
+        s"https://github.com/msgpack4z/msgpack4z-jawn/tree/${tag}€{FILE_PATH}.scala"
       )
     },
     pomExtra :=
@@ -90,9 +98,13 @@ object Common {
       <scm>
         <url>git@github.com:msgpack4z/msgpack4z-jawn.git</url>
         <connection>scm:git:git@github.com:msgpack4z/msgpack4z-jawn.git</connection>
-        <tag>{if(isSnapshot.value) gitHash else { "v" + version.value }}</tag>
-      </scm>
-    ,
+        <tag>{
+        if (isSnapshot.value) gitHash
+        else {
+          "v" + version.value
+        }
+      }</tag>
+      </scm>,
     description := "msgpack4z jawn binding",
     pomPostProcess := { node =>
       import scala.xml._
@@ -101,12 +113,12 @@ object Common {
         override def transform(n: Node) =
           if (f(n)) NodeSeq.Empty else n
       }
-      val stripTestScope = stripIf { n => n.label == "dependency" && (n \ "scope").text == "test" }
+      val stripTestScope = stripIf { n =>
+        n.label == "dependency" && (n \ "scope").text == "test"
+      }
       new RuleTransformer(stripTestScope).transform(node)(0)
     },
-    Seq(Compile, Test).flatMap(c =>
-      scalacOptions in (c, console) --= unusedWarnings
-    )
+    Seq(Compile, Test).flatMap(c => scalacOptions in (c, console) --= unusedWarnings)
   ).flatMap(_.settings)
 
 }

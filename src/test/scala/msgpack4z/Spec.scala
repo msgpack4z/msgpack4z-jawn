@@ -4,53 +4,70 @@ import org.typelevel.jawn.ast._
 import org.scalacheck.{Arbitrary, Gen, Prop, Properties}
 import scalaz.{-\/, \/-}
 
-abstract class SpecBase(name: String) extends Properties(name){
+abstract class SpecBase(name: String) extends Properties(name) {
 
   private val jValuePrimitivesArb: Arbitrary[JValue] =
-    Arbitrary(Gen.oneOf(
-      Gen.const(JNull),
-      Gen.const(JTrue),
-      Gen.const(JFalse),
-      gen[Double].map(a => DeferNum(a.toString)),
-      gen[Long].map(LongNum),
-      gen[Double].map(DoubleNum),
-      gen[String].map(JString.apply)
-    ))
+    Arbitrary(
+      Gen.oneOf(
+        Gen.const(JNull),
+        Gen.const(JTrue),
+        Gen.const(JFalse),
+        gen[Double].map(a => DeferNum(a.toString)),
+        gen[Long].map(LongNum),
+        gen[Double].map(DoubleNum),
+        gen[String].map(JString.apply)
+      )
+    )
 
   private val jsObjectArb1: Arbitrary[JObject] =
-    Arbitrary(Gen.choose(0, 6).flatMap(n =>
-      Gen.listOfN(
-        n,
-        Arbitrary.arbTuple2(
-          arb[String], jValuePrimitivesArb
-        ).arbitrary
-      ).map(JObject.fromSeq)
-    ))
+    Arbitrary(
+      Gen
+        .choose(0, 6)
+        .flatMap(
+          n =>
+            Gen
+              .listOfN(
+                n,
+                Arbitrary
+                  .arbTuple2(
+                    arb[String],
+                    jValuePrimitivesArb
+                  )
+                  .arbitrary
+              )
+              .map(JObject.fromSeq)
+        )
+    )
 
   private val jsArrayArb1: Arbitrary[JArray] =
-    Arbitrary(Gen.choose(0, 6).flatMap(n =>
-      Gen.listOfN(n, jValuePrimitivesArb.arbitrary).map(JArray.fromSeq)
-    ))
+    Arbitrary(Gen.choose(0, 6).flatMap(n => Gen.listOfN(n, jValuePrimitivesArb.arbitrary).map(JArray.fromSeq)))
 
   implicit val jValueArb: Arbitrary[JValue] =
-    Arbitrary(Gen.oneOf(
-      jValuePrimitivesArb.arbitrary,
-      jsObjectArb1.arbitrary,
-      jsArrayArb1.arbitrary
-    ))
+    Arbitrary(
+      Gen.oneOf(
+        jValuePrimitivesArb.arbitrary,
+        jsObjectArb1.arbitrary,
+        jsArrayArb1.arbitrary
+      )
+    )
 
   implicit val jsObjectArb: Arbitrary[JObject] =
-    Arbitrary(Gen.choose(0, 6).flatMap(n =>
-      Gen.listOfN(
-        n,
-        Arbitrary.arbTuple2(arb[String], jValueArb).arbitrary
-      ).map(JObject.fromSeq)
-    ))
+    Arbitrary(
+      Gen
+        .choose(0, 6)
+        .flatMap(
+          n =>
+            Gen
+              .listOfN(
+                n,
+                Arbitrary.arbTuple2(arb[String], jValueArb).arbitrary
+              )
+              .map(JObject.fromSeq)
+        )
+    )
 
   implicit val jsArrayArb: Arbitrary[JArray] =
-    Arbitrary(Gen.choose(0, 6).flatMap(n =>
-      Gen.listOfN(n, jValueArb.arbitrary).map(JArray.fromSeq)
-    ))
+    Arbitrary(Gen.choose(0, 6).flatMap(n => Gen.listOfN(n, jValueArb.arbitrary).map(JArray.fromSeq)))
 
   final def gen[A: Arbitrary]: Gen[A] =
     implicitly[Arbitrary[A]].arbitrary
@@ -97,17 +114,17 @@ abstract class SpecBase(name: String) extends Properties(name){
   }
 }
 
-object Java06Spec extends SpecBase("java06"){
+object Java06Spec extends SpecBase("java06") {
   override protected[this] def packer() = Msgpack06.defaultPacker()
   override protected[this] def unpacker(bytes: Array[Byte]) = Msgpack06.defaultUnpacker(bytes)
 }
 
-object JavaSpec extends SpecBase("java"){
+object JavaSpec extends SpecBase("java") {
   override protected[this] def packer() = new MsgpackJavaPacker()
   override protected[this] def unpacker(bytes: Array[Byte]) = MsgpackJavaUnpacker.defaultUnpacker(bytes)
 }
 
-object NativeSpec extends SpecBase("native"){
+object NativeSpec extends SpecBase("native") {
   override protected[this] def packer() = MsgOutBuffer.create()
   override protected[this] def unpacker(bytes: Array[Byte]) = MsgInBuffer(bytes)
 }

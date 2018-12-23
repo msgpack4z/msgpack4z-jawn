@@ -32,7 +32,7 @@ object JawnMsgpack {
   def jArray2msgpack(packer: MsgPacker, array: JArray): Unit = {
     packer.packArrayHeader(array.vs.length)
     var i = 0
-    while(i < array.vs.length){
+    while (i < array.vs.length) {
       jValue2msgpack(packer, array.vs(i))
       i += 1
     }
@@ -92,10 +92,11 @@ object JawnMsgpack {
   }
 
   private[this] final case class Result[A](
-    var value: A, var error: UnpackError
+    var value: A,
+    var error: UnpackError
   )
   private[this] object Result {
-    def fromEither[A](e: UnpackError \/ A, result: Result[A]): Boolean = e match{
+    def fromEither[A](e: UnpackError \/ A, result: Result[A]): Boolean = e match {
       case \/-(r) =>
         result.value = r
         true
@@ -115,20 +116,20 @@ object JawnMsgpack {
     var success = true
 
     def process(key: String): Unit = {
-     if (msgpack2json0(unpacker, mapElem, unpackOptions)) {
-       obj += ((key, mapElem.value))
-       i += 1
-     } else {
-       result.error = mapElem.error
-       success = false
-     }
+      if (msgpack2json0(unpacker, mapElem, unpackOptions)) {
+        obj += ((key, mapElem.value))
+        i += 1
+      } else {
+        result.error = mapElem.error
+        success = false
+      }
     }
 
     while (i < size && success) {
       val tpe = unpacker.nextType()
-      if(tpe == MsgType.STRING) {
+      if (tpe == MsgType.STRING) {
         process(unpacker.unpackString())
-      }else{
+      } else {
         unpackOptions.nonStringKey(tpe, unpacker) match {
           case Some(key) =>
             process(key)
@@ -188,21 +189,21 @@ object JawnMsgpack {
         true
       case MsgType.INTEGER =>
         val value = unpacker.unpackBigInteger()
-        if(isValidLong(value)){
+        if (isValidLong(value)) {
           result.value = LongNum(value.longValue())
-        }else{
+        } else {
           result.value = DeferNum(value.toString)
         }
         true
       case MsgType.FLOAT =>
         val f = unpacker.unpackDouble()
-        if(f.isPosInfinity){
+        if (f.isPosInfinity) {
           Result.fromEither(unpackOptions.positiveInf, result)
-        }else if(f.isNegInfinity){
+        } else if (f.isNegInfinity) {
           Result.fromEither(unpackOptions.negativeInf, result)
-        }else if(java.lang.Double.isNaN(f)) {
+        } else if (java.lang.Double.isNaN(f)) {
           Result.fromEither(unpackOptions.nan, result)
-        }else{
+        } else {
           result.value = DoubleNum(f)
         }
         true
@@ -229,18 +230,20 @@ object JawnMsgpack {
   }
 }
 
+private final class CodecJawnJArray(unpackOptions: JawnUnpackOptions)
+  extends MsgpackCodecConstant[JArray](
+    JawnMsgpack.jArray2msgpack,
+    unpacker => JawnMsgpack.msgpack2jsArray(unpacker, unpackOptions)
+  )
 
-private final class CodecJawnJArray(unpackOptions: JawnUnpackOptions) extends MsgpackCodecConstant[JArray](
-  JawnMsgpack.jArray2msgpack,
-  unpacker => JawnMsgpack.msgpack2jsArray(unpacker, unpackOptions)
-)
+private final class CodecJawnJValue(unpackOptions: JawnUnpackOptions)
+  extends MsgpackCodecConstant[JValue](
+    JawnMsgpack.jValue2msgpack,
+    unpacker => JawnMsgpack.msgpack2json(unpacker, unpackOptions)
+  )
 
-private final class CodecJawnJValue(unpackOptions: JawnUnpackOptions) extends MsgpackCodecConstant[JValue](
-  JawnMsgpack.jValue2msgpack,
-  unpacker => JawnMsgpack.msgpack2json(unpacker, unpackOptions)
-)
-
-private final class CodecJawnJObject(unpackOptions: JawnUnpackOptions) extends MsgpackCodecConstant[JObject](
-  JawnMsgpack.jObject2msgpack,
-  unpacker => JawnMsgpack.msgpack2jsObj(unpacker, unpackOptions)
-)
+private final class CodecJawnJObject(unpackOptions: JawnUnpackOptions)
+  extends MsgpackCodecConstant[JObject](
+    JawnMsgpack.jObject2msgpack,
+    unpacker => JawnMsgpack.msgpack2jsObj(unpacker, unpackOptions)
+  )
