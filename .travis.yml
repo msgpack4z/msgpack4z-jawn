@@ -2,13 +2,20 @@ language: scala
 
 sudo: false
 
+dist: xenial
+
 scala:
   - 2.11.12
   - 2.12.8
   - 2.13.0-RC3
 
 jdk:
-  - oraclejdk8
+  - openjdk8
+
+matrix:
+  include:
+  - jdk: openjdk11
+    scala: 2.12.8
 
 script:
   - git config core.whitespace tab-in-indent,trailing-space,space-before-tab,cr-at-eol
