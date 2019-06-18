@@ -65,12 +65,19 @@ object Common {
       "-target:jvm-1.8",
       "-deprecation",
       "-unchecked",
-      "-Xfuture",
       "-Xlint",
       "-language:existentials",
       "-language:higherKinds",
       "-language:implicitConversions",
     ),
+    scalacOptions ++= {
+      CrossVersion.partialVersion(scalaVersion.value) match {
+        case Some((2, v)) if v <= 12 =>
+          Seq("-Xfuture")
+        case _ =>
+          Nil
+      }
+    },
     scalacOptions ++= unusedWarnings,
     scalaVersion := Scala211,
     crossScalaVersions := Scala211 :: "2.12.8" :: "2.13.0" :: Nil,
