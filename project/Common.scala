@@ -18,7 +18,6 @@ object Common {
   val settings = Seq[SettingsDefinition](
     ReleasePlugin.extraReleaseCommands,
     fullResolvers ~= { _.filterNot(_.name == "jcenter") },
-    resolvers += Opts.resolver.sonatypeReleases,
     testOptions in Test += Tests.Argument(
       TestFrameworks.ScalaCheck,
       "-minSuccessfulTests",
