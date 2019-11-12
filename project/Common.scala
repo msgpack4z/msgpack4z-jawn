@@ -3,6 +3,7 @@ import sbtrelease._
 import sbtrelease.ReleasePlugin.autoImport._
 import ReleaseStateTransformations._
 import com.typesafe.sbt.pgp.PgpKeys
+import xerial.sbt.Sonatype.autoImport._
 
 object Common {
 
@@ -24,12 +25,7 @@ object Common {
       "300"
     ),
     commands += Command.command("updateReadme")(UpdateReadme.updateReadmeTask),
-    publishTo := Some(
-      if (isSnapshot.value)
-        Opts.resolver.sonatypeSnapshots
-      else
-        Opts.resolver.sonatypeStaging
-    ),
+    publishTo := sonatypePublishToBundle.value,
     releaseProcess := Seq[ReleaseStep](
       checkSnapshotDependencies,
       inquireVersions,
@@ -45,10 +41,10 @@ object Common {
         },
         enableCrossBuild = true
       ),
+      releaseStepCommand("sonatypeBundleRelease"),
       setNextVersion,
       commitNextVersion,
       UpdateReadme.updateReadmeProcess,
-      releaseStepCommand("sonatypeReleaseAll"),
       pushChanges
     ),
     credentials ++= PartialFunction
