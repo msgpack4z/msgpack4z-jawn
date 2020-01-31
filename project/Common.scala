@@ -14,7 +14,7 @@ object Common {
     "-Ywarn-unused",
   )
 
-  private[this] val Scala211 = "2.11.12"
+  private[this] val Scala212 = "2.12.10"
 
   val settings = Seq[SettingsDefinition](
     ReleasePlugin.extraReleaseCommands,
@@ -74,8 +74,8 @@ object Common {
       }
     },
     scalacOptions ++= unusedWarnings,
-    scalaVersion := Scala211,
-    crossScalaVersions := Scala211 :: "2.12.10" :: "2.13.1" :: Nil,
+    scalaVersion := Scala212,
+    crossScalaVersions := Scala212 :: "2.13.1" :: Nil,
     scalacOptions in (Compile, doc) ++= {
       val tag =
         if (isSnapshot.value) gitHash
