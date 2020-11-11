@@ -1,6 +1,6 @@
 # msgpack4z-jawn
 
-[![Build Status](https://secure.travis-ci.com/msgpack4z/msgpack4z-jawn.png?branch=master)](http://travis-ci.com/msgpack4z/msgpack4z-jawn)
+[![Build Status](https://travis-ci.com/msgpack4z/msgpack4z-jawn.svg?branch=master)](http://travis-ci.com/msgpack4z/msgpack4z-jawn)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.xuwei-k/msgpack4z-jawn_2.12/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.xuwei-k/msgpack4z-jawn_2.12)
 [![scaladoc](https://javadoc-badge.appspot.com/com.github.xuwei-k/msgpack4z-jawn_2.12.svg?label=scaladoc)](https://javadoc-badge.appspot.com/com.github.xuwei-k/msgpack4z-jawn_2.12/msgpack4z/index.html?javadocio=true)
 
