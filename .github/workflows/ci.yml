@@ -18,6 +18,7 @@ jobs:
     - run: git config core.whitespace tab-in-indent,trailing-space,space-before-tab,cr-at-eol
     - run: git show --oneline --check
     - run: sbt -v
-           scalafmtCheckAll
+           scalafmtCheck
+           "test:scalafmtCheck" 
            scalafmtSbtCheck
            "+ test"
