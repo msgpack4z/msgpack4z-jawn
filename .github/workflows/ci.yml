@@ -20,6 +20,6 @@ jobs:
     - run: git show --oneline --check
     - run: sbt -v
            scalafmtCheck
-           "test:scalafmtCheck" 
+           "test:scalafmtCheck"
            scalafmtSbtCheck
            "+ test"
