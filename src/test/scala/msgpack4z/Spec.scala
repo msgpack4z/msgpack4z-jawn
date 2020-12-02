@@ -23,19 +23,18 @@ abstract class SpecBase(name: String) extends Properties(name) {
     Arbitrary(
       Gen
         .choose(0, 6)
-        .flatMap(
-          n =>
-            Gen
-              .listOfN(
-                n,
-                Arbitrary
-                  .arbTuple2(
-                    arb[String],
-                    jValuePrimitivesArb
-                  )
-                  .arbitrary
-              )
-              .map(JObject.fromSeq)
+        .flatMap(n =>
+          Gen
+            .listOfN(
+              n,
+              Arbitrary
+                .arbTuple2(
+                  arb[String],
+                  jValuePrimitivesArb
+                )
+                .arbitrary
+            )
+            .map(JObject.fromSeq)
         )
     )
 
@@ -55,14 +54,13 @@ abstract class SpecBase(name: String) extends Properties(name) {
     Arbitrary(
       Gen
         .choose(0, 6)
-        .flatMap(
-          n =>
-            Gen
-              .listOfN(
-                n,
-                Arbitrary.arbTuple2(arb[String], jValueArb).arbitrary
-              )
-              .map(JObject.fromSeq)
+        .flatMap(n =>
+          Gen
+            .listOfN(
+              n,
+              Arbitrary.arbTuple2(arb[String], jValueArb).arbitrary
+            )
+            .map(JObject.fromSeq)
         )
     )
 
