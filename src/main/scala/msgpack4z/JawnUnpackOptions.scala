@@ -2,7 +2,7 @@ package msgpack4z
 
 import org.typelevel.jawn.ast._
 import msgpack4z.JawnUnpackOptions.NonStringKeyHandler
-import scalaz.\/-
+import scalaz.{\/, \/-}
 
 final case class JawnUnpackOptions(
   extension: Unpacker[JValue],
@@ -46,7 +46,7 @@ object JawnUnpackOptions {
 
   type NonStringKeyHandler = (MsgType, MsgUnpacker) => Option[String]
 
-  private[this] val jNullRight = \/-(JNull)
+  private[this] val jNullRight: UnpackError \/ JValue = \/-(JNull)
 
   val default: JawnUnpackOptions = JawnUnpackOptions(
     extUnpacker,
