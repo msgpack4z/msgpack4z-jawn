@@ -19,7 +19,7 @@ object Common {
   val settings = Seq[SettingsDefinition](
     ReleasePlugin.extraReleaseCommands,
     fullResolvers ~= { _.filterNot(_.name == "jcenter") },
-    testOptions in Test += Tests.Argument(
+    Test / testOptions += Tests.Argument(
       TestFrameworks.ScalaCheck,
       "-minSuccessfulTests",
       "300"
@@ -75,7 +75,7 @@ object Common {
     scalacOptions ++= unusedWarnings,
     scalaVersion := Scala212,
     crossScalaVersions := Scala212 :: "2.13.5" :: Nil,
-    scalacOptions in (Compile, doc) ++= {
+    (Compile / doc / scalacOptions) ++= {
       val tag =
         if (isSnapshot.value) gitHash
         else {
@@ -83,7 +83,7 @@ object Common {
         }
       Seq(
         "-sourcepath",
-        (baseDirectory in LocalRootProject).value.getAbsolutePath,
+        (LocalRootProject / baseDirectory).value.getAbsolutePath,
         "-doc-source-url",
         s"https://github.com/msgpack4z/msgpack4z-jawn/tree/${tag}€{FILE_PATH}.scala"
       )
@@ -119,7 +119,7 @@ object Common {
       }
       new RuleTransformer(stripTestScope).transform(node)(0)
     },
-    Seq(Compile, Test).flatMap(c => scalacOptions in (c, console) --= unusedWarnings)
+    Seq(Compile, Test).flatMap(c => c / console / scalacOptions --= unusedWarnings)
   ).flatMap(_.settings)
 
 }
