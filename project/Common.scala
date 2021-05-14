@@ -74,7 +74,7 @@ object Common {
     },
     scalacOptions ++= unusedWarnings,
     scalaVersion := Scala212,
-    crossScalaVersions := Scala212 :: "2.13.5" :: Nil,
+    crossScalaVersions := Scala212 :: "2.13.5" :: "3.0.0" :: Nil,
     (Compile / doc / scalacOptions) ++= {
       val tag =
         if (isSnapshot.value) gitHash

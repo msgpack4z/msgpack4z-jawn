@@ -174,7 +174,7 @@ object JawnMsgpack {
   private def isValidLong(value: java.math.BigInteger): Boolean =
     (BigIntegerLongMin.compareTo(value) <= 0) && (value.compareTo(BigIntegerLongMax) <= 0)
 
-  private[msgpack4z] def msgpack2json0(unpacker: MsgUnpacker, result: Result[JValue], unpackOptions: JawnUnpackOptions): Boolean = {
+  private[this] def msgpack2json0(unpacker: MsgUnpacker, result: Result[JValue], unpackOptions: JawnUnpackOptions): Boolean = {
     unpacker.nextType match {
       case MsgType.NIL =>
         unpacker.unpackNil()
