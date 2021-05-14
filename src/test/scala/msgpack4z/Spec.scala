@@ -13,8 +13,8 @@ abstract class SpecBase(name: String) extends Properties(name) {
         Gen.const(JTrue),
         Gen.const(JFalse),
         gen[Double].map(a => DeferNum(a.toString)),
-        gen[Long].map(LongNum),
-        gen[Double].map(DoubleNum),
+        gen[Long].map(LongNum(_)),
+        gen[Double].map(DoubleNum(_)),
         gen[String].map(JString.apply)
       )
     )
@@ -77,7 +77,7 @@ abstract class SpecBase(name: String) extends Properties(name) {
   protected[this] def unpacker(bytes: Array[Byte]): MsgUnpacker
 
   private def checkRoundTripBytes[A](implicit A: MsgpackCodec[A], G: Arbitrary[A]) =
-    Prop.forAll { a: A =>
+    Prop.forAll { (a: A) =>
       A.roundtrip(a, packer(), unpacker _) match {
         case None =>
           true
