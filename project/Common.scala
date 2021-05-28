@@ -14,7 +14,7 @@ object Common {
     "-Ywarn-unused",
   )
 
-  private[this] val Scala212 = "2.12.13"
+  private[this] val Scala212 = "2.12.14"
 
   val settings = Seq[SettingsDefinition](
     ReleasePlugin.extraReleaseCommands,
