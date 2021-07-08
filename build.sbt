@@ -10,5 +10,3 @@ libraryDependencies ++= Seq(
   "com.github.xuwei-k" % "msgpack4z-java06" % "0.2.0" % "test",
   "com.github.xuwei-k" %% "msgpack4z-native" % "0.3.8" % "test",
 )
-
-Sxr.settings
