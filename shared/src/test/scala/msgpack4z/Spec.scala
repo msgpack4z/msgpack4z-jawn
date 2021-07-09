@@ -112,16 +112,6 @@ abstract class SpecBase(name: String) extends Properties(name) {
   }
 }
 
-object Java06Spec extends SpecBase("java06") {
-  override protected[this] def packer() = Msgpack06.defaultPacker()
-  override protected[this] def unpacker(bytes: Array[Byte]) = Msgpack06.defaultUnpacker(bytes)
-}
-
-object JavaSpec extends SpecBase("java") {
-  override protected[this] def packer() = new MsgpackJavaPacker()
-  override protected[this] def unpacker(bytes: Array[Byte]) = MsgpackJavaUnpacker.defaultUnpacker(bytes)
-}
-
 object NativeSpec extends SpecBase("native") {
   override protected[this] def packer() = MsgOutBuffer.create()
   override protected[this] def unpacker(bytes: Array[Byte]) = MsgInBuffer(bytes)
