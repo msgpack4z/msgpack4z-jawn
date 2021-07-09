@@ -175,7 +175,7 @@ object JawnMsgpack {
     (BigIntegerLongMin.compareTo(value) <= 0) && (value.compareTo(BigIntegerLongMax) <= 0)
 
   private[this] def msgpack2json0(unpacker: MsgUnpacker, result: Result[JValue], unpackOptions: JawnUnpackOptions): Boolean = {
-    unpacker.nextType match {
+    unpacker.nextType() match {
       case MsgType.NIL =>
         unpacker.unpackNil()
         result.value = JNull
