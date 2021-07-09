@@ -74,7 +74,7 @@ val commonSettings = Def.settings(
   },
   scalacOptions ++= unusedWarnings,
   scalaVersion := Scala212,
-  crossScalaVersions := Scala212 :: "2.13.6" :: "3.0.0" :: Nil,
+  crossScalaVersions := Scala212 :: "2.13.6" :: "3.0.1-RC2" :: Nil,
   (Compile / doc / scalacOptions) ++= {
     Seq(
       "-sourcepath",
