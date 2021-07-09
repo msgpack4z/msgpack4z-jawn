@@ -33,7 +33,7 @@ object JawnUnpackOptions {
   }
 
   val extUnpacker: Unpacker[JValue] = { unpacker =>
-    val header = unpacker.unpackExtTypeHeader
+    val header = unpacker.unpackExtTypeHeader()
     val data = unpacker.readPayload(header.getLength)
     val result = JObject(
       collection.mutable.Map(
