@@ -4,6 +4,7 @@ import sbtrelease.ReleaseStateTransformations._
 
 val msgpack4zJawnName = "msgpack4z-jawn"
 val modules = msgpack4zJawnName :: Nil
+val isScala3 = Def.setting(scalaBinaryVersion.value == "3")
 
 def gitHash(): String = sys.process.Process("git rev-parse HEAD").lineStream_!.head
 
@@ -19,6 +20,7 @@ val unusedWarnings = Seq(
 )
 
 def Scala212 = "2.12.15"
+def Scala3 = "3.1.0"
 
 val commonSettings = Def.settings(
   ReleasePlugin.extraReleaseCommands,
@@ -74,7 +76,7 @@ val commonSettings = Def.settings(
   },
   scalacOptions ++= unusedWarnings,
   scalaVersion := Scala212,
-  crossScalaVersions := Scala212 :: "2.13.7" :: "3.1.0" :: Nil,
+  crossScalaVersions := Scala212 :: "2.13.7" :: Scala3 :: Nil,
   (Compile / doc / scalacOptions) ++= {
     Seq(
       "-sourcepath",
@@ -112,7 +114,7 @@ val commonSettings = Def.settings(
   Seq(Compile, Test).flatMap(c => c / console / scalacOptions --= unusedWarnings),
 )
 
-val msgpack4zJawn = CrossProject("msgpack4z-jawn", file("."))(JVMPlatform, JSPlatform)
+val msgpack4zJawn = CrossProject("msgpack4z-jawn", file("."))(JVMPlatform, JSPlatform, NativePlatform)
   .settings(
     commonSettings,
     name := msgpack4zJawnName,
@@ -124,6 +126,33 @@ val msgpack4zJawn = CrossProject("msgpack4z-jawn", file("."))(JVMPlatform, JSPla
       "com.github.xuwei-k" % "msgpack4z-java06" % "0.2.0" % "test",
       "com.github.xuwei-k" %%% "msgpack4z-native" % "0.3.8" % "test",
     ),
+  )
+  .nativeSettings(
+    libraryDependencies := {
+      if (isScala3.value) {
+        Nil
+      } else {
+        libraryDependencies.value
+      }
+    },
+    Seq(Compile, Test).map { x =>
+      (x / sources) := {
+        if (isScala3.value) {
+          Nil
+        } else {
+          (x / sources).value
+        }
+      }
+    },
+    Test / test := {
+      if (isScala3.value) {
+        ()
+      } else {
+        (Test / test).value
+      }
+    },
+    publish / skip := isScala3.value,
+    crossScalaVersions -= Scala3,
   )
   .jsSettings(
     scalacOptions += {
