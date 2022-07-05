@@ -119,7 +119,7 @@ val msgpack4zJawn = CrossProject("msgpack4z-jawn", file("."))(JVMPlatform, JSPla
     commonSettings,
     name := msgpack4zJawnName,
     libraryDependencies ++= Seq(
-      "org.typelevel" %%% "jawn-ast" % "1.3.2",
+      "org.typelevel" %%% "jawn-ast" % "1.4.0",
       "com.github.xuwei-k" %%% "msgpack4z-core" % "0.6.0",
       "org.scalacheck" %%% "scalacheck" % "1.16.0" % "test",
       "com.github.xuwei-k" % "msgpack4z-java" % "0.4.0" % "test",
