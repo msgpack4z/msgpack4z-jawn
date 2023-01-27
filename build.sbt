@@ -124,7 +124,7 @@ val msgpack4zJawn = CrossProject("msgpack4z-jawn", file("."))(JVMPlatform, JSPla
       "org.scalacheck" %%% "scalacheck" % "1.17.0" % "test",
       "com.github.xuwei-k" % "msgpack4z-java" % "0.4.0" % "test",
       "com.github.xuwei-k" % "msgpack4z-java06" % "0.2.0" % "test",
-      "com.github.xuwei-k" %%% "msgpack4z-native" % "0.3.8" % "test",
+      "com.github.xuwei-k" %%% "msgpack4z-native" % "0.3.9" % "test",
     ),
   )
   .nativeSettings(
