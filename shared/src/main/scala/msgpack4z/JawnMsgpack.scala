@@ -110,7 +110,7 @@ object JawnMsgpack {
 
   private[this] def msgpack2jsObj0(unpacker: MsgUnpacker, result: Result[JObject], unpackOptions: JawnUnpackOptions): Boolean = {
     val size = unpacker.unpackMapHeader()
-    val obj = collection.mutable.AnyRefMap.empty[String, JValue]
+    val obj = collection.mutable.HashMap.empty[String, JValue]
     var i = 0
     val mapElem = Result.empty[JValue]
     var success = true
