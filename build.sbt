@@ -4,7 +4,6 @@ import sbtrelease.ReleaseStateTransformations._
 
 val msgpack4zJawnName = "msgpack4z-jawn"
 val modules = msgpack4zJawnName :: Nil
-val isScala3 = Def.setting(scalaBinaryVersion.value == "3")
 
 def gitHash(): String = sys.process.Process("git rev-parse HEAD").lineStream_!.head
 
@@ -126,33 +125,6 @@ val msgpack4zJawn = CrossProject("msgpack4z-jawn", file("."))(JVMPlatform, JSPla
       "com.github.xuwei-k" % "msgpack4z-java06" % "0.2.0" % "test",
       "com.github.xuwei-k" %%% "msgpack4z-native" % "0.4.0" % "test",
     ),
-  )
-  .nativeSettings(
-    libraryDependencies := {
-      if (isScala3.value) {
-        Nil
-      } else {
-        libraryDependencies.value
-      }
-    },
-    Seq(Compile, Test).map { x =>
-      (x / sources) := {
-        if (isScala3.value) {
-          Nil
-        } else {
-          (x / sources).value
-        }
-      }
-    },
-    Test / test := {
-      if (isScala3.value) {
-        ()
-      } else {
-        (Test / test).value
-      }
-    },
-    publish / skip := isScala3.value,
-    crossScalaVersions -= Scala3,
   )
   .jsSettings(
     scalacOptions += {
