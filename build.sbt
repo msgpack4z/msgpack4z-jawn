@@ -139,6 +139,9 @@ val msgpack4zJawn = CrossProject("msgpack4z-jawn", file("."))(JVMPlatform, JSPla
     },
     Test / scalaJSStage := FastOptStage
   )
+  .nativeSettings(
+    evictionErrorLevel := Level.Warn,
+  )
 
 commonSettings
 
