@@ -29,7 +29,7 @@ val commonSettings = Def.settings(
     "300"
   ),
   commands += Command.command("updateReadme")(updateReadmeTask),
-  publishTo := sonatypePublishToBundle.value,
+  publishTo := (if (isSnapshot.value) None else localStaging.value),
   releaseTagName := tagName.value,
   releaseProcess := Seq[ReleaseStep](
     checkSnapshotDependencies,
@@ -47,7 +47,7 @@ val commonSettings = Def.settings(
       },
       enableCrossBuild = true
     ),
-    releaseStepCommand("sonatypeBundleRelease"),
+    releaseStepCommand("sonaRelease"),
     setNextVersion,
     commitNextVersion,
     updateReadmeProcess,
