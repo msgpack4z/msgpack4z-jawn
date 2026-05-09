@@ -28,6 +28,7 @@ jobs:
     - run: git show --oneline --check
     - run: sbt -v
            --server
-           "+ scalafmtCheckAll"
+           scalafmtCheckAll
            scalafmtSbtCheck
-           "+ test"
+           Test/compile
+           test
