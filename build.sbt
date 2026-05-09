@@ -69,10 +69,17 @@ val commonSettings = Def.settings(
     "-release:8",
     "-deprecation",
     "-unchecked",
-    "-Xlint",
     "-language:existentials",
     "-language:implicitConversions",
   ),
+  scalacOptions ++= {
+    CrossVersion.partialVersion(scalaVersion.value) match {
+      case Some((2, _)) =>
+        Seq("-Xlint")
+      case _ =>
+        Nil
+    }
+  },
   scalacOptions ++= {
     CrossVersion.partialVersion(scalaVersion.value) match {
       case Some((2, v)) if v <= 12 =>
