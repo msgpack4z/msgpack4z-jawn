@@ -143,7 +143,7 @@ val msgpack4zJawn = projectMatrix
     Def.settings(
       scalacOptions += {
         val a = (LocalRootProject / baseDirectory).value.toURI.toString
-        val g = "https://raw.githubusercontent.com/msgpack4z/msgpack4z-jawn/" + gitHash
+        val g = "https://raw.githubusercontent.com/msgpack4z/msgpack4z-jawn/" + gitHash()
         CrossVersion.partialVersion(scalaVersion.value) match {
           case Some((2, _)) =>
             s"-P:scalajs:mapSourceURI:$a->$g/"
