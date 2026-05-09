@@ -1,4 +1,3 @@
-import sbtcrossproject.CrossProject
 import sbtrelease.Git
 import sbtrelease.ReleaseStateTransformations._
 
@@ -27,8 +26,7 @@ val unusedWarnings = Def.setting(
   }
 )
 
-def Scala212 = "2.12.21"
-def Scala3 = "3.3.7"
+val scalaVersions = Seq("2.12.21", "2.13.18", "3.3.7")
 
 val commonSettings = Def.settings(
   ReleasePlugin.extraReleaseCommands,
@@ -49,14 +47,8 @@ val commonSettings = Def.settings(
     commitReleaseVersion,
     updateReadmeProcess,
     tagRelease,
-    ReleaseStep(
-      action = { state =>
-        val extracted = Project.extract(state)
-        extracted.runAggregated(extracted.get(thisProjectRef) / (Global / PgpKeys.publishSigned), state)
-      },
-      enableCrossBuild = true
-    ),
-    releaseStepCommand("sonaRelease"),
+    releaseStepCommandAndRemaining("publishSigned"),
+    releaseStepCommandAndRemaining("sonaRelease"),
     setNextVersion,
     commitNextVersion,
     updateReadmeProcess,
@@ -89,8 +81,6 @@ val commonSettings = Def.settings(
     }
   },
   scalacOptions ++= unusedWarnings.value,
-  scalaVersion := Scala212,
-  crossScalaVersions := Scala212 :: "2.13.18" :: Scala3 :: Nil,
   (Compile / doc / scalacOptions) ++= {
     Seq(
       "-sourcepath",
@@ -128,7 +118,10 @@ val commonSettings = Def.settings(
   Seq(Compile, Test).flatMap(c => c / console / scalacOptions --= unusedWarnings.value),
 )
 
-val msgpack4zJawn = CrossProject("msgpack4z-jawn", file("."))(JVMPlatform, JSPlatform, NativePlatform)
+val msgpack4zJawn = projectMatrix
+  .defaultAxes()
+  .withId("msgpack4z-jawn")
+  .in(file("."))
   .settings(
     commonSettings,
     name := msgpack4zJawnName,
@@ -141,25 +134,35 @@ val msgpack4zJawn = CrossProject("msgpack4z-jawn", file("."))(JVMPlatform, JSPla
       "com.github.xuwei-k" %%% "msgpack4z-native" % "0.4.0" % "test",
     ),
   )
-  .jsSettings(
-    scalacOptions += {
-      val a = (LocalRootProject / baseDirectory).value.toURI.toString
-      val g = "https://raw.githubusercontent.com/msgpack4z/msgpack4z-jawn/" + gitHash
-      CrossVersion.partialVersion(scalaVersion.value) match {
-        case Some((2, _)) =>
-          s"-P:scalajs:mapSourceURI:$a->$g/"
-        case _ =>
-          s"-scalajs-mapSourceURI:$a->$g/"
-      }
-    },
-    Test / scalaJSStage := FastOptStage
+  .jvmPlatform(
+    scalaVersions,
+    Def.settings()
   )
-  .nativeSettings(
-    evictionErrorLevel := Level.Warn,
+  .jsPlatform(
+    scalaVersions,
+    Def.settings(
+      scalacOptions += {
+        val a = (LocalRootProject / baseDirectory).value.toURI.toString
+        val g = "https://raw.githubusercontent.com/msgpack4z/msgpack4z-jawn/" + gitHash
+        CrossVersion.partialVersion(scalaVersion.value) match {
+          case Some((2, _)) =>
+            s"-P:scalajs:mapSourceURI:$a->$g/"
+          case _ =>
+            s"-scalajs-mapSourceURI:$a->$g/"
+        }
+      },
+      Test / scalaJSStage := FastOptStage
+    )
+  )
+  .nativePlatform(
+    scalaVersions,
+    Def.settings(
+      evictionErrorLevel := Level.Warn,
+    )
   )
 
 commonSettings
-
+autoScalaLibrary := false
 PgpKeys.publishLocalSigned := {}
 PgpKeys.publishSigned := {}
 publishLocal := {}
