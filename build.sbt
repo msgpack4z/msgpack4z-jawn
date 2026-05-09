@@ -14,8 +14,17 @@ val tagOrHash = Def.setting {
   if (isSnapshot.value) gitHash() else tagName.value
 }
 
-val unusedWarnings = Seq(
-  "-Ywarn-unused"
+val unusedWarnings = Def.setting(
+  scalaBinaryVersion.value match {
+    case "2.12" =>
+      Seq(
+        "-Ywarn-unused",
+      )
+    case _ =>
+      Seq(
+        "-Wunused:imports",
+      )
+  }
 )
 
 def Scala212 = "2.12.21"
@@ -72,7 +81,7 @@ val commonSettings = Def.settings(
         Nil
     }
   },
-  scalacOptions ++= unusedWarnings,
+  scalacOptions ++= unusedWarnings.value,
   scalaVersion := Scala212,
   crossScalaVersions := Scala212 :: "2.13.18" :: Scala3 :: Nil,
   (Compile / doc / scalacOptions) ++= {
@@ -109,7 +118,7 @@ val commonSettings = Def.settings(
     }
     new RuleTransformer(stripTestScope).transform(node)(0)
   },
-  Seq(Compile, Test).flatMap(c => c / console / scalacOptions --= unusedWarnings),
+  Seq(Compile, Test).flatMap(c => c / console / scalacOptions --= unusedWarnings.value),
 )
 
 val msgpack4zJawn = CrossProject("msgpack4z-jawn", file("."))(JVMPlatform, JSPlatform, NativePlatform)
