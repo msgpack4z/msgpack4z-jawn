@@ -4,7 +4,7 @@ import sbtrelease.ReleaseStateTransformations._
 val msgpack4zJawnName = "msgpack4z-jawn"
 val modules = msgpack4zJawnName :: Nil
 
-def gitHash(): String = sys.process.Process("git rev-parse HEAD").lineStream_!.head
+def gitHash(): String = sys.process.Process("git rev-parse HEAD").lazyLines_!.head
 
 val tagName = Def.setting {
   s"v${if (releaseUseGlobalVersion.value) (ThisBuild / version).value else version.value}"
@@ -126,12 +126,12 @@ val msgpack4zJawn = projectMatrix
     commonSettings,
     name := msgpack4zJawnName,
     libraryDependencies ++= Seq(
-      "org.typelevel" %%% "jawn-ast" % "1.6.0",
-      "com.github.xuwei-k" %%% "msgpack4z-core" % "0.6.2",
-      "org.scalacheck" %%% "scalacheck" % "1.19.0" % "test",
+      "org.typelevel" %% "jawn-ast" % "1.6.0",
+      "com.github.xuwei-k" %% "msgpack4z-core" % "0.6.2",
+      "org.scalacheck" %% "scalacheck" % "1.19.0" % "test",
       "com.github.xuwei-k" % "msgpack4z-java" % "0.4.0" % "test",
       "com.github.xuwei-k" % "msgpack4z-java06" % "0.2.0" % "test",
-      "com.github.xuwei-k" %%% "msgpack4z-native" % "0.4.0" % "test",
+      "com.github.xuwei-k" %% "msgpack4z-native" % "0.4.0" % "test",
     ),
   )
   .jvmPlatform(
@@ -139,7 +139,7 @@ val msgpack4zJawn = projectMatrix
     Def.settings()
   )
   .jsPlatform(
-    scalaVersions,
+    Nil,
     Def.settings(
       scalacOptions += {
         val a = (LocalRootProject / baseDirectory).value.toURI.toString
@@ -151,7 +151,6 @@ val msgpack4zJawn = projectMatrix
             s"-scalajs-mapSourceURI:$a->$g/"
         }
       },
-      Test / scalaJSStage := FastOptStage
     )
   )
   .nativePlatform(
@@ -161,15 +160,17 @@ val msgpack4zJawn = projectMatrix
     )
   )
 
-commonSettings
-autoScalaLibrary := false
-PgpKeys.publishLocalSigned := {}
-PgpKeys.publishSigned := {}
-publishLocal := {}
-publish := {}
-Compile / publishArtifact := false
-Compile / scalaSource := (LocalRootProject / baseDirectory).value / "dummy"
-Test / scalaSource := (LocalRootProject / baseDirectory).value / "dummy"
+val root = rootProject.autoAggregate.settings(
+  commonSettings,
+  autoScalaLibrary := false,
+  PgpKeys.publishLocalSigned := {},
+  PgpKeys.publishSigned := {},
+  publishLocal := {},
+  publish := {},
+  Compile / publishArtifact := false,
+  Compile / scalaSource := (LocalRootProject / baseDirectory).value / "dummy",
+  Test / scalaSource := (LocalRootProject / baseDirectory).value / "dummy",
+)
 
 val updateReadmeTask: State => State = { state =>
   val extracted = Project.extract(state)
