@@ -126,7 +126,7 @@ val msgpack4zJawn = projectMatrix
     commonSettings,
     name := msgpack4zJawnName,
     libraryDependencies ++= Seq(
-      "org.typelevel" %% "jawn-ast" % "1.6.0",
+      "org.typelevel" %% "jawn-ast" % "1.7.0",
       "com.github.xuwei-k" %% "msgpack4z-core" % "0.6.2",
       "org.scalacheck" %% "scalacheck" % "1.19.0" % "test",
       "com.github.xuwei-k" % "msgpack4z-java" % "0.4.0" % "test",
